@@ -1,5 +1,6 @@
 package dev.jobyfoster.TodoTracker.todos;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,14 +44,13 @@ public class TodoService {
     }
 
 
+    @Transactional
     public void updateTodo(int todoID, String todo) {
         Todo todoToUpdate = todoRepository.findById(todoID)
                 .orElseThrow(() -> new IllegalStateException(
                         "todo with id " + todoID + " does not exit"
                 ));
-        if (todo != null && !todo.isEmpty() &&
-            !Objects.equals(todoToUpdate.getTodo(), todo)){
-
+        if (todo != null && !todo.isEmpty()){
             todoToUpdate.setTodo(todo);
         }
 
